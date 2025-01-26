@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Women Safety App - Manage Contacts</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <h1>Manage Trusted Contacts</h1>
+  </header>
+
+  <main class="container">
+    <h2>Enter Contact Information</h2>
+    <input type="text" id="contactName" placeholder="Enter name" required>
+    <input type="text" id="contactPhone" placeholder="Enter phone number" required>
+    <button class="btn" id="addContactBtn">Add Contact</button>
+
+    <h3>Your Trusted Contacts:</h3>
+    <ul id="contactList"></ul>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Women Safety App. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const addContactBtn = document.getElementById("addContactBtn");
+    const contactList = document.getElementById("contactList");
+
+    // Load trusted contacts from localStorage
+    const loadContacts = () => {
+      const contacts = JSON.parse(localStorage.getItem("trustedContacts")) || [];
+      contactList.innerHTML = '';
+      contacts.forEach(contact => {
+        const li = document.createElement('li');
+        li.textContent = `${contact.name} - ${contact.phone}`;
+        contactList.appendChild(li);
+      });
+    };
+
+    addContactBtn.addEventListener("click", () => {
+      const name = document.getElementById("contactName").value.trim();
+      const phone = document.getElementById("contactPhone").value.trim();
+
+      if (name && phone) {
+        const contact = { name, phone };
+        let contacts = JSON.parse(localStorage.getItem("trustedContacts")) || [];
+        contacts.push(contact);
+        localStorage.setItem("trustedContacts", JSON.stringify(contacts));
+
+        // Reload contact list
+        loadContacts();
+
+        // Clear input fields
+        document.getElementById("contactName").value = '';
+        document.getElementById("contactPhone").value = '';
+      }
+    });
+
+    // Initial load of contacts
+    loadContacts();
+  </script>
+</body>
+</html>
+

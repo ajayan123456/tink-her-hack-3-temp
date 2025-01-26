@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Women Safety App - Login</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <h1>Women Safety App</h1>
+  </header>
+
+  <main class="container">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <input type="email" id="loginEmail" placeholder="Enter email" required>
+      <input type="password" id="loginPassword" placeholder="Enter password" required>
+      <button class="btn" type="button" id="loginBtn">Login</button>
+    </form>
+    <p id="statusMessage"></p>
+    <p>Don't have an account? <a href="createAccount.html">Create an account</a></p>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Women Safety App. All rights reserved.</p>
+  </footer>
+
+  <script>
+    if (localStorage.getItem("isLoggedIn") === "true") {
+      window.location.href = "dashboard.html";
+    }
+
+    document.getElementById("loginBtn").addEventListener("click", () => {
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value.trim();
+
+      const savedAccount = JSON.parse(localStorage.getItem("account"));
+
+      if (savedAccount && email === savedAccount.email && password === savedAccount.password) {
+        localStorage.setItem("isLoggedIn", "true");
+        window.location.href = "dashboard.html";
+      } else {
+        document.getElementById("statusMessage").textContent = "Invalid email or password!";
+        document.getElementById("statusMessage").style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>
+
+
